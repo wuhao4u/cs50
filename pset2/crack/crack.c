@@ -33,19 +33,24 @@ void crack(string hashed) {
     crack_recur(POOL, placeholder, 0, poolSize, 4, hashed);
 }
 
+// crack_recur function was inspired by following links:
+// http://bit.ly/2iUC8PM
+// http://bit.ly/1r01VFY
+// http://bit.ly/2i36J9j
 void crack_recur(char pool[],char prefix[],int current_len,int n,int len,char hashed[])
 {
+
     /*
-    str=orignal set,
+    pool=orignal set,
     prefix=empty char array,
     current_len=0(Intially)
-    n=no of elements to be used
-    len=the value of p given*/
+    n=no of elements to be used (pool length)
+    len=number of positions in the password
+    hashed=the given hashing value(to check)*/
 
-    if(current_len==len)//print string when length is equal to p
+    if(current_len==len)
     {
-        string encryped = crypt(prefix, "50");
-        if (strcmp(encryped, hashed) == 0) {
+        if (strcmp(crypt(prefix, "50"), hashed) == 0) {
             printf("%s\n",prefix);
             exit(0);
         }
