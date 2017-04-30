@@ -6,6 +6,8 @@
  
 #include <cs50.h>
 
+void swap(int values[], int i, int j);
+
 /**
  * Returns true if value is in array of n values, else false.
  */
