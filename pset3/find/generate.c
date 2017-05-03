@@ -21,32 +21,27 @@
 
 int main(int argc, string argv[])
 {
-    // validating the input. there could only be 2 or 3 arguments.
+    // TODO: comment me
     if (argc != 2 && argc != 3)
     {
         printf("Usage: ./generate n [s]\n");
         return 1;
     }
 
-    // converting the 2nd argument (n: the amount of pseuforandom number to generate),
-    // from string to integer
+    // TODO: comment me
     int n = atoi(argv[1]);
 
-    // the 3rd argument(seed for random number generator) is optional
+    // TODO: comment me
     if (argc == 3)
     {
-        // if the user inputed the 3rd argument, seed the number
         srand48((long) atoi(argv[2]));
     }
     else
     {
-        // using current time as the default seed
         srand48((long) time(NULL));
     }
 
-    // generate n numbers with drand48.
-    // drand48 generate a number between [0, 1). 
-    // Thus, we need to multiply with LIMIT to convert from decimal number to a integer
+    // TODO: comment me
     for (int i = 0; i < n; i++)
     {
         printf("%i\n", (int) (drand48() * LIMIT));
