@@ -60,7 +60,7 @@ bool binary_search(int target, int A[], int n) {
  */
 bool search(int value, int values[], int n)
 {
-    // TODO: implement a searching algorithm
+    // task 1: implement a searching algorithm
     // return linear_search(value, values, n);
     return binary_search(value, values, n);
 }
@@ -108,7 +108,7 @@ void qsort_hao(int v[], int left, int right) {
  */
 void sort(int values[], int n)
 {
-    // TODO: implement a sorting algorithm
+    // task 2: implement a sorting algorithm
     // bubble_sort(values, n);
     qsort_hao(values, 0, n);
     return;
