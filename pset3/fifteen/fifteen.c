@@ -275,5 +275,28 @@ bool move(int tile)
 bool won(void)
 {
     // TODO
+    int expected_val = 1;
+    
+    for(int r = 0; r < d; ++r) {
+        for(int c = 0; c < d; ++c) {
+            if (board[r][c] == 0) {
+                
+                if (expected_val == d*d - 1) {
+                    if((r == d - 1) && (c == d-1)) {
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            }
+            
+            if (board[r][c] == expected_val) {
+                if (expected_val != d*d -1) {
+                    ++expected_val;
+                }
+            }
+        }
+    }
+
     return false;
 }
