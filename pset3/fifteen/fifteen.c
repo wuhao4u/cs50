@@ -28,6 +28,10 @@ int board[DIM_MAX][DIM_MAX];
 
 // dimensions
 int d;
+int totalTiles = -1;
+
+// curent blank location
+int bx = -1, by = -1;
 
 // prototypes
 void clear(void);
@@ -53,6 +57,8 @@ int main(int argc, string argv[])
         printf("Board must be between %i x %i and %i x %i, inclusive.\n",
             DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
         return 2;
+    } else {
+        totalTiles = d * d - 1;
     }
 
     // open log
@@ -147,7 +153,7 @@ void greet(void)
 {
     clear();
     printf("WELCOME TO GAME OF FIFTEEN\n");
-    usleep(2000000);
+    usleep(1000000);
 }
 
 /**
@@ -156,7 +162,23 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
+    int x = totalTiles;
+    bool needSwap = (d % 2 == 0) ? true : false;
+    
+    for (int r = 0; r < d; ++r) {
+        for (int c = 0; c < d; ++c) {
+            board[r][c] = x;
+            --x;
+        }
+    }
+    
+    if (needSwap) {
+        board[d-1][d-2] = 2;
+        board[d-1][d-3] = 1;
+    }
+    
+    bx = d - 1;
+    by = d - 1;
 }
 
 /**
@@ -164,7 +186,55 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
+    for (int r = 0; r < d; ++r) {
+        for (int c = 0; c < d; ++c) {
+            if (board[r][c] == 0) {
+                printf(" _ ");
+            } else {
+                printf("%2i ", board[r][c]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+bool find_tile_position(int tile, int *x, int *y) {
+    for (int r = 0; r < d; ++r) {
+        for (int c = 0; c < d; ++c) {
+            if (board[r][c] == tile) {
+                *x = r;
+                *y = c;
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool is_neighbor(int tile) {
+    // up
+    if ((by - 1 >= 0) && (board[bx][by-1] == tile)) {
+        // has up tile
+        return true;
+    }
+    
+    // down
+    if ((by + 1 < d) && (board[bx][by+1] == tile)) {
+        return true;
+    }
+    
+    // left
+    if ((bx-1 >= 0) && (board[bx-1][by] == tile)) {
+        return true;
+    }
+    
+    // right
+    if ((bx+1 < d) && (board[bx+1][by] == tile)) {
+        return true;
+    }
+    
+    return false;
 }
 
 /**
@@ -173,7 +243,28 @@ void draw(void)
  */
 bool move(int tile)
 {
+    // blank is at bx, by
+
+    int to_x = -1;
+    int to_y = -1;
+
     // TODO
+    // find the x and y of targated tile
+    if(find_tile_position(tile, &to_x, &to_y)) {
+        printf("DEBUG: move to row: %d, col: %d\n", to_x, to_y);
+        
+        if(is_neighbor(tile)) {
+            // swap
+            board[bx][by] = board[to_x][to_y];
+            board[to_x][to_y] = 0;
+            
+            bx = to_x;
+            by = to_y;
+            
+            return true;
+        }
+    }
+
     return false;
 }
 
